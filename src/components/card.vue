@@ -1,5 +1,6 @@
 <script>
 import { actions } from '../store';
+import _ from 'lodash';
 
 export default {
     vuex: {
@@ -10,9 +11,9 @@ export default {
         }
     },
     methods: {
-        onKeyup (e) {
+        onKeyup : _.debounce( function (e) {
             this.search(e.target.value);
-        }
+        }, 150)
     }
 };
 </script>
@@ -24,7 +25,7 @@ export default {
         <p class="name">{{user.name}}</p>
     </header>
     <footer>
-        <input class="search" type="text" placeholder="search user..." @keyup="onKeyup | debounce 150">
+        <input class="search" type="text" placeholder="search user..." @keyup="onKeyup">
     </footer>
 </div>
 </template>

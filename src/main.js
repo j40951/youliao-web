@@ -9,7 +9,8 @@ import chat from './chat'
 Vue.config.devtools = true;
 
 new Vue({
-    el: 'body',
+    el: '#body',
+    template: '<app></app>',
     components: { App },
     store: store
 });

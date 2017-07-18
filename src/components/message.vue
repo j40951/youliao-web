@@ -16,19 +16,19 @@ export default {
             return date.getHours() + ':' + date.getMinutes();
         }
     },
-    directives: {
-        // 发送消息后滚动到底部
-        'scroll-bottom' () {
-            this.vm.$nextTick(() => {
-                this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight;
-            });
+    watch: {
+        messages : function () {
+            this.$nextTick(() => {
+                console.log(this);
+                this.$el.scrollTop = this.$el.scrollHeight - this.$el.clientHeight;
+            })
         }
     }
 };
 </script>
 
 <template>
-<div class="message" v-scroll-bottom="messages">
+<div class="message">
     <ul v-if="session">
         <li v-for="item in messages">
             <p class="time">

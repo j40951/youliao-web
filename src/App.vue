@@ -3,11 +3,11 @@ import { actions } from './store';
 
 import Card from 'components/card';
 import List from 'components/list';
-import Text from 'components/text';
+import Textbox from 'components/textbox';
 import Message from 'components/message';
 
 export default {
-    components: { Card, List, Text, Message },
+    components: { Card, List, Textbox, Message },
     vuex: {
         actions: actions
     },
@@ -39,7 +39,7 @@ export default {
     </div>
     <div class="main">
         <message></message>
-        <text></text>
+        <textbox></textbox>
     </div>
 </div>
 </template>
@@ -67,7 +67,7 @@ export default {
         overflow: hidden;
         background-color: #eee;
     }
-    .text {
+    .textbox {
         position: absolute;
         width: 100%;
         bottom: 0;
