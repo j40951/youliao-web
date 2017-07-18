@@ -50,6 +50,16 @@ module.exports = {
         historyApiFallback: true,
         noInfo: true
     },
+    dev: {
+        proxyTable: {
+            // proxy all requests starting with /api to jsonplaceholder
+            '/auth': {
+                target: 'http://localhost:8090/youliao.im/auth',
+                changeOrigin: true
+            }
+        }
+    },
+
     // 开启source-map，webpack有多种source-map，在官网文档可以查到
     devtool: '#eval-source-map'
 }

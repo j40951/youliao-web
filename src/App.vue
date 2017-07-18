@@ -13,13 +13,19 @@ export default {
     },
     created () {
         this.initData();
+        console.log(this);
     },
     sockets: {
         onopen: (event) => {
-            console.log('on open ------->');
+            console.log('Chat tunnel connected success.');
         },
         onmessage: (event) => {
             console.log('on message---->', event.data);
+            let message = JSON.parse(event.data);
+            // this.sendMessage(message);
+            console.log(event);
+            console.log(this);
+            // console.log("this's type is " + typeof(obj));
         }
     }
 }

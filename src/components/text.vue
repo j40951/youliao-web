@@ -5,10 +5,13 @@ export default {
     vuex: {
         actions: actions,
         getters: {
-            from: ({ user }) => user,
+            from: ({ user }) => user.id,
             to: ({ sessions, currentSessionId }) => {
                 let session = sessions.find(session => session.id === currentSessionId);
-                return session.user;
+                if (session == null) {
+                    return null;
+                }
+                return session.user.id;
             }
         }
     },
@@ -20,18 +23,22 @@ export default {
     methods: {
         onKeyup (e) {
             if (e.ctrlKey && e.keyCode === 13 && this.content.length) {
-                this.sendMessage(this.content);
-                this.sendTo(this.content);
+                let message = {};
+                message.content = this.content;
+                message.date = new Date();
+                message.self = true;
+                this.sendMessage(message);
+                this.saveMessage(message);
+                this.postMessage(this.content);
                 this.content = '';
             }
         },
-        sendTo (content) {
-            let msg = {};
-            msg.from = this.from;
-            msg.to = this.to;
-            msg.content = this.content;
-            console.log(JSON.stringify(msg));
-            this.$socket.send(JSON.stringify(msg));
+        postMessage (content) {
+            let message = {};
+            message.from = this.from;
+            message.to = this.to;
+            message.content = this.content;
+            this.$socket.send(JSON.stringify(message));
         }
     }
 };

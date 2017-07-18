@@ -3,7 +3,8 @@ export default {
     vuex: {
         getters: {
             user: ({ user }) => user,
-            session: ({ sessions, currentSessionId }) => sessions.find(session => session.id === currentSessionId)
+            session: ({ sessions, currentSessionId }) => sessions.find(session => session.id === currentSessionId),
+            messages: ({ messages }) => messages
         }
     },
     filters: {
@@ -27,9 +28,9 @@ export default {
 </script>
 
 <template>
-<div class="message" v-scroll-bottom="session.messages">
+<div class="message" v-scroll-bottom="messages">
     <ul v-if="session">
-        <li v-for="item in session.messages">
+        <li v-for="item in messages">
             <p class="time">
                 <span>{{ item.date | time }}</span>
             </p>
