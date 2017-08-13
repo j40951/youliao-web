@@ -8,25 +8,8 @@ import Message from 'components/message';
 
 export default {
     components: { Card, List, Textbox, Message },
-    vuex: {
-        actions: actions
-    },
     created () {
-        this.initData();
-        console.log(this);
-    },
-    sockets: {
-        onopen: (event) => {
-            console.log('Chat tunnel connected success.');
-        },
-        onmessage: (event) => {
-            console.log('on message---->', event.data);
-            let message = JSON.parse(event.data);
-            // this.sendMessage(message);
-            console.log(event);
-            console.log(this);
-            // console.log("this's type is " + typeof(obj));
-        }
+        this.$store.dispatch('initData');
     }
 }
 </script>

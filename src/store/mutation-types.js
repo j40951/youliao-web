@@ -1,0 +1,15 @@
+export const INIT_DATA = 'INIT_DATA'
+export const INIT_SESSIONS = 'INIT_SESSIONS'
+export const ADD_SESSION = 'ADD_SESSION'
+export const SEND_MESSAGE = 'SEND_MESSAGE'
+export const SET_MESSAGES = 'SET_MESSAGES'
+
+export const SELECT_SESSION = 'SELECT_SESSION'
+
+export const SET_FILTER_KEY = 'SET_FILTER_KEY'
+export const SET_USER = 'SET_USER'
+
+export const SOCKET_ONOPEN = 'SOCKET_ONOPEN'
+export const SOCKET_ONMESSAGE = 'SOCKET_ONMESSAGE'
+export const SOCKET_ONERROR = 'SOCKET_ONERROR'
+export const SOCKET_ONCLOSE = 'SOCKET_ONCLOSE'

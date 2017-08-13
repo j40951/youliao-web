@@ -1,17 +1,19 @@
 <script>
-import { actions } from '../store';
+import { mapState, mapActions } from 'vuex'
 
 export default {
-    vuex: {
-        actions: actions,
-        getters: {
-            // 过滤后的会话列表
-            sessions: ({ sessions, filterKey }) => {
-                let result = sessions.filter(session => session.user.name.includes(filterKey));
-                return result;
-            },
-            // 当前会话index
-            currentId: ({ currentSessionId }) => currentSessionId
+    computed: mapState({
+        currentId: 'currentSessionId',
+        sessions ({ sessions, filterKey }) {
+            return sessions.filter(session => session.user.name.includes(filterKey));
+        }
+    }),
+    methods: mapActions([
+        'selectSession'
+    ]),
+    watch: {
+        currentId : function () {
+            this.$el.scrollTop = 55 * (this.currentId - 1);
         }
     }
 };
@@ -30,6 +32,9 @@ export default {
 
 <style scoped lang="less">
 .list {
+    height: ~'calc(100% - 105px)';
+    overflow-y: scroll;
+
     li {
         padding: 12px 15px;
         border-bottom: 1px solid #292C33;

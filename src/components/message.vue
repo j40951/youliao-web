@@ -1,12 +1,12 @@
 <script>
+import { mapState } from 'vuex'
+
 export default {
-    vuex: {
-        getters: {
-            user: ({ user }) => user,
-            session: ({ sessions, currentSessionId }) => sessions.find(session => session.id === currentSessionId),
-            messages: ({ messages }) => messages
-        }
-    },
+    computed: mapState({
+        user: 'user',
+        session: ({ sessions, currentSessionId }) => sessions.find(session => session.id === currentSessionId),
+        messages: 'messages'
+    }),
     filters: {
         // 将日期过滤为 hour:minutes
         time (date) {
@@ -19,7 +19,6 @@ export default {
     watch: {
         messages : function () {
             this.$nextTick(() => {
-                console.log(this);
                 this.$el.scrollTop = this.$el.scrollHeight - this.$el.clientHeight;
             })
         }

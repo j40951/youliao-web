@@ -172,13 +172,14 @@ const store = new Vuex.Store({
           console.log("hello world...." + state.message);
         }
 
-    }
+    },
+    actions: actions
 });
 
 export default store;
 export const actions = {
-    initData: ({ dispatch, state}) => {
-        dispatch('INIT_DATA');
+    initData: ({ commit, state }) => {
+        commit('INIT_DATA');
         const trans = state.storeDB.transaction(["session"], "readonly", 
             (tr, {getAll}) => {
                 const sessionStore = tr.objectStore("session");
@@ -190,14 +191,14 @@ export const actions = {
         trans.then(result => {
             if (result.length > 0) {
                 let records = result[0];
-                dispatch('INIT_SESSIONS', records);
+                commit('INIT_SESSIONS', records);
             }
         }).catch(error => {
             console.log(error);
         });
     },
 
-    addSession: ({ dispatch, state }, session) => {
+    addSession: ({ commit, state }, session) => {
         const trans = state.storeDB.transaction(["session"], "readwrite",
             ( tr, { request } ) => {
                 console.log("Add session to indexedDB.");
@@ -211,14 +212,14 @@ export const actions = {
             if (result.length > 0) {
                 let index = result[0];
                 session.id = index;
-                dispatch('ADD_SESSION', session);
+                commit('ADD_SESSION', session);
             }
         }).catch(error => {
             console.log("Add session fail. error = " + error);
         });
     },
 
-    saveMessage: ({ dispatch, state }, message, userId) => {
+    saveMessage: ({ commit, state }, message, userId) => {
 
         let sessionId = state.currentSessionId;
         if (userId != null) {
@@ -245,15 +246,15 @@ export const actions = {
         });
     },
 
-    sendMessage: ({ dispatch }, message) => dispatch('SEND_MESSAGE', message),
+    sendMessage: ({ commit }, message) => commit('SEND_MESSAGE', message),
 
-    pushMessage: ({ dispatch }, message) => {
-        // dispatch('SEND_MESSAGE', message);
+    pushMessage: ({ commit }, message) => {
+        // commit('SEND_MESSAGE', message);
         console.log('push_message:' + message);
     },
 
-    selectSession: ({ dispatch, state }, id) => {
-        dispatch('SELECT_SESSION', id);
+    selectSession: ({ commit, state }, id) => {
+        commit('SELECT_SESSION', id);
         console.log("currentSessionId: " + state.currentSessionId);
 
         const storeName = "session:" + state.currentSessionId;
@@ -268,11 +269,11 @@ export const actions = {
             // Save message success
             if (result.length > 0) {
                 console.log(result[0]);
-                dispatch('SET_MESSAGES', result[0]);
+                commit('SET_MESSAGES', result[0]);
             }
         }).catch(error => {
             console.log("Save message fail. " + error);
         });
     },
-    search: ({ dispatch }, value) => dispatch('SET_FILTER_KEY', value)
+    search: ({ commit }, value) => commit('SET_FILTER_KEY', value)
 };

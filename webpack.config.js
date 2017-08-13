@@ -16,7 +16,8 @@ module.exports = {
         extensions: ['', '.js', '.vue'],
         // 别名
         alias: {
-            components: path.join(__dirname, './src/components')
+            components: path.join(__dirname, './src/components'),
+            vue: 'vue/dist/vue.js'
         }
     },
     resolveLoader: {
@@ -48,14 +49,12 @@ module.exports = {
     // webpack-dev-server配置
     devServer: {
         historyApiFallback: true,
-        noInfo: true
-    },
-    dev: {
-        proxyTable: {
-            // proxy all requests starting with /api to jsonplaceholder
-            '/auth': {
-                target: 'http://localhost:8090/youliao.im/auth',
-                changeOrigin: true
+        noInfo: true,
+        proxy: {
+            '/iam': {
+                target: 'http://localhost:8060',
+                changeOrigin: true,
+                secure: false
             }
         }
     },

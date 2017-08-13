@@ -1,18 +1,16 @@
 <script>
-import { actions } from '../store';
-import _ from 'lodash';
+import _ from 'lodash'
+import { mapState } from 'vuex'
 
 export default {
-    vuex: {
-        actions: actions,
-        getters: {
-            user: ({ user }) => user,
-            filterKey: ({ filterKey }) => filterKey
-        }
-    },
+
+    computed: mapState([
+        'user',
+        'filterKey'
+    ]),
     methods: {
         onKeyup : _.debounce( function (e) {
-            this.search(e.target.value);
+            this.$store.dispatch('search', e.target.value);
         }, 150)
     }
 };

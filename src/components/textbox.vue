@@ -1,28 +1,29 @@
 <script>
 import { actions } from '../store';
+import { mapState, mapActions } from 'vuex'
 
 export default {
-    vuex: {
-        actions: actions,
-        getters: {
-            from: ({ user }) => user.id,
-            to: ({ sessions, currentSessionId }) => {
-                let session = sessions.find(session => session.id === currentSessionId);
-                if (session == null) {
-                    return null;
-                }
-                return session.user.id;
-            }
-        }
-    },
     data () {
         return {
             content: ''
         };
     },
+
+    computed: mapState({
+        from : ({ user }) => user,
+        to: ({ sessions, currentSessionId }) => {
+            let session = sessions.find(session => session.id === currentSessionId);
+            if (session == null) {
+                return null;
+            }
+            return session.user.id;
+        }
+    }),
+
     methods: {
         onKeyup (e) {
-            if (e.ctrlKey && e.keyCode === 13 && this.content.length) {
+            this.content = this.content.substring(0, this.content.length - 1);
+            if (e.keyCode === 13 && this.content.length > 0) {
                 let message = {};
                 message.content = this.content;
                 message.date = new Date();
@@ -31,6 +32,8 @@ export default {
                 this.saveMessage(message);
                 this.postMessage(this.content);
                 this.content = '';
+            } else {
+                this.content = '';
             }
         },
         postMessage (content) {
@@ -38,15 +41,20 @@ export default {
             message.from = this.from;
             message.to = this.to;
             message.content = this.content;
+            message.action = 'onmessage';
             this.$socket.send(JSON.stringify(message));
-        }
+        },
+        ...mapActions([
+            'sendMessage',
+            'saveMessage'
+        ])
     }
 };
 </script>
 
 <template>
 <div class="textbox">
-    <textarea placeholder="按 Ctrl + Enter 发送" v-model="content" @keyup="onKeyup"></textarea>
+    <textarea placeholder="按 Enter 发送" v-model="content" @keyup.enter="onKeyup"></textarea>
 </div>
 </template>
 
